@@ -5,6 +5,7 @@ import { observable } from 'mobx';
 import { v4 as uuid} from 'uuid';
 
 import TodoListItem from './TodoListItem'
+import TagsInput from './inputTag'
 
 
 function TodoList({ className }) {
@@ -24,6 +25,7 @@ function TodoList({ className }) {
                             isComplete={item.isComplete}
                             onComplete={() => store.setCompleted(item.id)}
                             onChange={(e) => store.setItemName(item.id, e.target.value)}
+                            remove={() => store.removeItem(item.id)}
                         />
                     ))}
                 </ul>
@@ -39,6 +41,10 @@ function TodoList({ className }) {
                             {item.name}
                         </li>
                     ))}
+                </ul>
+                <h2 className="tagFilter">Tag Filter</h2>
+                <ul>
+                    
                 </ul>
             </footer>
         </div>
@@ -74,6 +80,11 @@ function createTodoStore() {
             const item = self.items.find(i => i.id === id);
             item.isComplete = true;
         },
+
+        removeItem(id) {  // Removing Item
+            self.items = self.items.filter(i => i.id != id);
+        },
+
     })
 
     return self;
@@ -83,6 +94,6 @@ export default styled(observer(TodoList))`
     background-color: lightgray;
 
     .title {
-        color: orange;
+        color: blue;
     }
 `
